@@ -186,6 +186,7 @@ class TBLite(ase.calculators.calculator.Calculator):
         "charges",
         "dipole",
         "stress",
+        "bond-orders",
     ]
 
     default_parameters = {
@@ -382,6 +383,9 @@ class TBLite(ase.calculators.calculator.Calculator):
         if self.atoms.pbc.any():
             _stress = self._res["virial"] * Hartree / self.atoms.get_volume()
             self.results["stress"] = _stress.flat[[0, 4, 8, 5, 2, 1]]
+
+    def _uhf(self) -> int:
+        return _get_uhf(self.atoms, self.parameters)
 
 
 def _create_api_calculator(
