@@ -204,7 +204,7 @@ subroutine get_hamiltonian(mol, trans, list, bas, h0, selfenergy, overlap, dpint
 
    allocate(stmp(msao(bas%maxl)**2), dtmpi(3, msao(bas%maxl)**2), qtmpi(6, msao(bas%maxl)**2))
 
-   !$omp parallel do schedule(runtime) default(none) &
+   !$omp parallel do schedule(dynamic) default(none) &
    !$omp shared(mol, bas, trans, list, overlap, dpint, qpint, hamiltonian, h0, selfenergy) &
    !$omp private(iat, jat, izp, jzp, itr, is, js, ish, jsh, ii, jj, iao, jao, nao, ij, k) &
    !$omp private(r2, vec, stmp, dtmpi, qtmpi, dtmpj, qtmpj, hij, shpoly, rr, inl, img)
@@ -293,7 +293,7 @@ subroutine get_hamiltonian(mol, trans, list, bas, h0, selfenergy, overlap, dpint
       end do
    end do
 
-   !$omp parallel do schedule(runtime) default(none) &
+   !$omp parallel do schedule(dynamic) default(none) &
    !$omp shared(mol, bas, overlap, dpint, qpint, hamiltonian, h0, selfenergy) &
    !$omp private(iat, izp, is, ish, jsh, ii, jj, iao, jao, nao, ij) &
    !$omp private(vec, stmp, dtmpi, qtmpi, hij)
@@ -382,7 +382,7 @@ subroutine get_hamiltonian_gradient(mol, trans, list, bas, h0, selfenergy, dsedc
       & qtmp(6, msao(bas%maxl)**2), dqtmpi(3, 6, msao(bas%maxl)**2), &
       & ddtmpj(3, 3, msao(bas%maxl)**2), dqtmpj(3, 6, msao(bas%maxl)**2))
 
-   !$omp parallel do schedule(runtime) default(none) reduction(+:dEdcn, gradient, sigma) &
+   !$omp parallel do schedule(dynamic) default(none) reduction(+:dEdcn, gradient, sigma) &
    !$omp shared(mol, bas, trans, h0, selfenergy, dsedcn, pot, pmat, xmat, list, nspin) &
    !$omp private(iat, jat, izp, jzp, itr, is, js, ish, jsh, ii, jj, iao, jao, nao, ij, spin, &
    !$omp& r2, vec, stmp, dtmp, qtmp, dstmp, ddtmpi, dqtmpi, ddtmpj, dqtmpj, hij, &
@@ -471,7 +471,7 @@ subroutine get_hamiltonian_gradient(mol, trans, list, bas, h0, selfenergy, dsedc
       end do
    end do
 
-   !$omp parallel do schedule(runtime) default(none) reduction(+:dEdcn) &
+   !$omp parallel do schedule(dynamic) default(none) reduction(+:dEdcn) &
    !$omp shared(mol, bas, dsedcn, pmat, nspin) &
    !$omp private(iat, izp, jzp, is, ish, ii, iao, dcni, dhdcni, spin)
    do iat = 1, mol%nat
